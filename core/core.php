@@ -79,7 +79,7 @@ if(!isset($no_rw)){
 	if (!isset($is_core)) Tools::retrievePostData();
 }
 Auwa::$requestMode = empty($_POST) ? 'GET' : 'POST';
-Session::get()->AuwaVersion = "v1-beta.1";
+Session::get()->AuwaVersion = "v1-beta.2";
 // set settings for templates
 Template::$compilationMode = (int)\Definer::$config['recompileTpl'];
 Template::$expirationTime = (int)\Definer::$config['tplExpiration'];
