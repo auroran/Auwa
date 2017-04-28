@@ -49,9 +49,6 @@ Acui.$checkUpdate = $('#updateAuwa').on('click', function(){
 											clearInterval(log);
 											setTimeout(function(){
 												Acui('AuwaUpgrade', 'article').html('<section><i class="fa fa-close fa-5x"></i><h1>Échec de la MAJ</h1><pre>'+r+'</pre></section>');
-												setTimeout(function(){
-													location.reload();
-												},5000);
 											}, 15)
 										}
 									});
