@@ -1,0 +1,77 @@
+.menuEditor section.menuContainer{
+	width: 80%;
+	margin: auto;
+	padding: 8px;
+}
+.menuEditor  section.customlist{
+	margin: auto;
+	width: auto;
+	padding: 0 0 0 40px;
+	vertical-align: middle;
+	box-sizing: border-box;
+}
+
+.menuEditor div.menu_item_line{
+	text-align: left;
+	box-shadow: 0 0 1px #222;
+	margin: 10px 0;
+	padding: 10px 10px;
+	background-color: #fff;
+	padding-left: 50px;
+	position: relative;
+	cursor: move;
+}
+	
+	.menuEditor div.menu_item_line.sample{
+		display: none;
+	}
+	.menuEditor div.ui-sortable-helper{
+		background-color: #f9f9f9;
+	}
+	.menuEditor .menu_item_line code{
+		display: none;
+	}
+	.menuEditor .menu_item_line i{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 35px;
+		bottom: 0;
+		border-right: 1px solid #aaa;
+		background-color: #ccc;
+	}
+	.menuEditor .menu_item_line button{
+		float:right;
+		color: #999;
+	}
+	.menuEditor .menu_item_line button.fa-edit{
+		color: #52a2d1;
+	}
+	.menuEditor .menu_item_line i:before{
+		padding-top: 12px;
+	}
+	.menuEditor .menu_item_line i:before,
+	.menuEditor .menu_item_line i:after{
+		color: #fff;    
+		content: "\f077";
+	    display: block;
+	    text-align: center;
+	    font-size: 10px;
+	    line-height: 7px;
+	}
+	.menuEditor .menu_item_line i:after{
+		content: "\f078";
+	}
+
+
+.menuEditor .ui-state-highlight{ 
+	display: inline-block;
+	width: 150px;
+	height: 40px;
+	margin: 0;
+	vertical-align: middle;
+ }
+.menuEditor .sortingColumn{
+	height: 40px;
+	background-color: #dcf4f9
+}

@@ -1,0 +1,49 @@
+#DefaultCoretranslations article > ul{
+	margin: 0;
+	padding: 1em 0;
+	position: absolute;
+	width: 27%;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	overflow: auto;
+	background-color: #cfd8da;
+	border-radius: 0;
+	border-right: 1px solid #999;
+	box-sizing: border-box;
+}
+	#DefaultCoretranslations article > ul li {
+		color: #2a2f35;
+		display: table;
+		width: 100%;
+		padding: 0 .8em;
+		font-weight: bold;
+		box-sizing: border-box;
+	}
+		#DefaultCoretranslations article > ul li > i,
+		#DefaultCoretranslations article > ul li > span {
+			display: table-cell;
+			white-space: auto;
+			vertical-align: middle;
+			text-align: left;
+		}
+
+		#DefaultCoretranslations article > ul li > i{
+			width: 40px;
+		}
+
+		#DefaultCoretranslations article > ul li > i img{
+			height: 40px;
+			width: auto;
+		}
+#DefaultCoretranslations article > section{
+	margin: 0;
+	position: absolute;
+	left: 27%;
+	top: 0 !important;
+	right: 0;
+	bottom: 0 !important;
+	overflow: auto;
+	padding: 1em;
+	display: none;
+}

@@ -1,0 +1,12 @@
+#AuwaUpgrade article img{
+	width: 400px;
+	margin: 5px;
+}
+#AuwaUpgrade article button{
+	padding: 1em;
+	background-color: #00dd00;
+	color: #fff;
+	font-size: 1.15em;
+	margin: 10px;
+	cursor: pointer;
+}

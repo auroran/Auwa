@@ -1,0 +1,29 @@
+#tinymce section.column{
+    display: table-cell;
+    position: relative;
+    border: 1px dashed #cceedd;
+    padding: 10px 20px;
+    background-color: #fff
+}
+	#tinymce section.column:after{
+		display: block;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		content: 'column';
+		font-size: .8em;
+		font-style: italic;
+		text-align: right;
+	}
+
+#tinymce{
+	background: #fafafa !important;
+	color: #000;
+}
+#tinymce{
+	font-size: 1.095em
+}
+#tinymce table td {
+	font-size: 1.05em
+}

@@ -1,0 +1,26 @@
+.CodeMirror { 
+	height: 100%;
+    z-index: 10;
+    font-size: 14px;
+    text-align: left;
+}
+	.CodeMirror pre { 
+		padding-left: 7px; 
+		line-height: 1.25; 
+	}
+
+aside p select{
+    background-color: #aaaaaa;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 3px;
+    margin-top: 8px
+}
+
+    #openConfig{
+     	height: 120px
+    }
+    #openConfig div[role=content]{
+    	bottom: 5px;
+    	
+    }
