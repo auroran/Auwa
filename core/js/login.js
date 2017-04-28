@@ -6,7 +6,6 @@ $('#login').click(function(){
 		user: $('input[name=user]').val(),
 		passwd: $('input[name=passwd]').val()
 	}
-	console.log(data);
 	Acui.callCore('coreConnexion',data, 'CoreLogin',false, {
 		success:function(r){
 			window.location.replace(redirect);
