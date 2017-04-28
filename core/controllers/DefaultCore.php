@@ -24,11 +24,12 @@ class DefaultCoreController extends CoreController{
 			'icon'=>'',
 			'class'=>'fa fa-lock Disconnect'
 		));
-		$this->insertHeaderTab(array(
-			'icon'=>'',
-			'id'=>'updateAuwa',
-			'class'=>'fa fa-refresh'
-		));
+		if (_Auwa_ROOT_CONNECTED_)
+			$this->insertHeaderTab(array(
+				'icon'=>'',
+				'id'=>'updateAuwa',
+				'class'=>'fa fa-refresh'
+			))
 		$this->insertHeaderTab(array(
 			'icon'=>'',
 			'class'=>'fa fa-user UserAccount'
