@@ -29,7 +29,7 @@ class DefaultCoreController extends CoreController{
 				'icon'=>'',
 				'id'=>'updateAuwa',
 				'class'=>'fa fa-refresh'
-			))
+			));
 		$this->insertHeaderTab(array(
 			'icon'=>'',
 			'class'=>'fa fa-user UserAccount'
