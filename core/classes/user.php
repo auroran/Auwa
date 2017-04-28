@@ -208,7 +208,7 @@ class User extends DefaultModel{
 		return  unserialize( Tools::uncryptDatas( Session::get()->{$sessvar} ) );
 	}
 	public static function getMainConnection(){
-		$defaultSessionName = file_get_contents(_CORE_DIR_.'session.id');
+		$defaultSessionName = \Definer::$config['sessionID'];
 		if ($defaultSessionName==Session::$name) return self::getConnected();
 		if (	isset($_SESSION[$defaultSessionName]) 
 				&& isset($_SESSION[$defaultSessionName]['data']) 
