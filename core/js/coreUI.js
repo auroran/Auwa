@@ -61,7 +61,7 @@ Acui.callCore = function(query, obj, controller, module, callback){
 		    	if (Acui.debugMode) Acui.debug('Réponse : <hr>'+JSON.stringify(r));
 		    } 
 		    else {
-		    	if (callback!=undefined && typeof callback.error=='function') callback.error();
+		    	if (callback!=undefined && typeof callback.error=='function') callback.error(r.errors);
 				for(var i in r.errors)
 					Acui.notice(r.errors[i], 'error');
 		    }
