@@ -5,6 +5,7 @@ Acui.update = {
 
 Acui.$checkUpdate = $('#updateAuwa').on('click', function(){
 	$.getJSON(Acui.update.repo, function(r){
+		if (r.length==0) return Acui.notice('Auwa semble à jour', 'success');
 		var release = r[0];
 		Acui.callCore('checkUpdate', {'version': release.tag_name}, 'DefaultCore', false, {
 			success: function(u){
