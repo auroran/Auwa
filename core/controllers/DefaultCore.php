@@ -198,10 +198,12 @@ class DefaultCoreController extends CoreController{
 
 			// Updates
 			case 'checkUpdate':
+				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
 				$r = Session::get()->AuwaVersion == $this->data['version'];
 				$this->setResponse(true, $r);
 				break;
 			case 'downloadUpdate':
+				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
 				if (!is_dir(_CORE_DIR_.'releases/')) @mkdir(_CORE_DIR_.'releases/');
 				$u = $this->data['release'];
 				$f = _CORE_DIR_.'releases/'.$u['tag_name'].'.zip';
@@ -223,6 +225,7 @@ class DefaultCoreController extends CoreController{
 				break;
 
 			case 'installUpdate':
+				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
 				$zip = new \ZipArchive;
 				$l = _CORE_DIR_.'releases/update.json';
 				$u = $this->data['release'];
