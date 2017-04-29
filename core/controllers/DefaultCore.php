@@ -114,13 +114,18 @@ class DefaultCoreController extends CoreController{
 
 			// update
 
-			case 'upgradeAuwa':
-				$this->setTitle('Mettre à jour Auwa' );
+			// Updates
+			case 'checkUpdate':
 				$this->addCss('update');
+				$this->setTitle('Utilitaire de mise-à-jour' );
+				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
+				$release = Tools::getValue('release');
+				$r = Session::get()->AuwaVersion == $release['tag_name'];
 				$this->setVar(array(
-					'release'	=> Tools::getValue('release'),
+					'release'	=> $r ? false : $release,
+					'm_releases'=> array()
 				));
-				$this->displayContent('upgrade');
+				$this->displayContent('updates');
 				break;
 		}
 	}

@@ -9,25 +9,59 @@
 	#AuwaUpgrade article h1{
 		margin: 10px;
 	}
-	#AuwaUpgrade article img{
-		width: 450px;
-		margin: 5px;
-	}
 	#AuwaUpgrade article button{
 		padding: 1em;
-		background-color: #00dd00;
+		background-color: #008c11;
 		color: #fff;
 		font-size: 1.15em;
 		margin: 10px;
 		cursor: pointer;
 	}
 
-	#AuwaUpgrade article ul{
-		width: 450px;
-		margin: auto;
-		text-align: left;
+			
+	#AuwaUpgrade article>section,
+	#AuwaUpgrade article>ul{
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin: 0;
+		padding: 5px;
+		box-sizing: border-box;
 	}
-		#AuwaUpgrade article ul li{
-			padding-left: 1.2em;
-			margin: 8px;
+	#AuwaUpgrade article>ul{
+		left: 0;
+		width: 100px;
+	}	
+		#AuwaUpgrade article>ul li{
+			margin: 8px 0;
+			background-color: #555;
+			color: #fff;
+			padding: 8px;
+			cursor: pointer;
 		}
+		#AuwaUpgrade article>ul li.active{
+			background-color: #008c11
+		}
+		#AuwaUpgrade article>ul li:hover{
+			background-color: #265c8a;
+		}
+	#AuwaUpgrade article>section{
+		display: none;
+		left: 120px;
+		right: 0;
+	}
+		#AuwaUpgrade article>section[role="core"]{
+			display: block;
+		}
+		#AuwaUpgrade img{
+			width: 100%;
+		}
+		#AuwaUpgrade article>section ul{
+				width: 100%;
+				margin: auto;
+				text-align: left;
+			}
+				#AuwaUpgrade article>section ul li{
+					padding-left: 1.2em;
+					margin: 8px;
+				}
