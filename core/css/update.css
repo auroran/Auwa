@@ -21,7 +21,10 @@
 		margin: 10px;
 	}
 
-			
+	#AuwaUpgrade article div.alert-success{
+		text-align: center;
+	}
+	
 	#AuwaUpgrade article>section,
 	#AuwaUpgrade article>ul{
 		position: absolute;

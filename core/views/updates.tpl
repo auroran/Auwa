@@ -17,12 +17,16 @@
 	</section>
 	<section role="modules">
 		<ul>
+		{if count($m_releases>0)}
 		{foreach $m_releases as $m=>$r}
 			<li{if $release.prerelease} class="prerelease"{/if}>
 				<button role="update" data-target="AuwaCoreModule-{$m}" name="{$r.version}">Mettre à jour</button>
 				<h1>{$m}</h1><code>{$r.version}</code>
 			</li>
 		{/foreach}
+		{else}
+		<br><div class="alert alert-success">Tous les modules sont à jour</div>
+		{/if}
 		</ul>
 	</section>
 </article>
