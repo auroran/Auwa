@@ -116,14 +116,33 @@ class DefaultCoreController extends CoreController{
 
 			// Updates
 			case 'checkUpdate':
-				$this->addCss('update');
+				$auwa = self::getRelease('Auwa');
+				if (!is_object($auwa) && isset($auwa[0])) $release = $auwa[0];
+				$coreSettings = \ConfigFile::getConfig('config/core');
+				$coreModules = array();
+				foreach ($coreSettings['Panel'] as $key => $tab) {
+					foreach ($tab as $item) {
+						if (isset($item['module']) && $item['module']!==false){
+							$r = self::getRelease('AuwaCoreModule-'.$item['module']);
+							var_dump($r);
+							$m = \ConfigFile::getConfig('modules/'.$item['module'].'/module');
+							if (!is_object($r) && isset($r[0]) && isset($m['version']) && $r[0]->tag_name!==$m['version']){
+								$coreModules[$item['module']] = array(
+									'version' => $r[0]->tag_name,
+									'prerelease' => $r[0]->prerelease,
+									'archive' => 'https://github.com/auroran/Auwa/archive/AuwaCoreModule-'.$item['module'].'.zip',
+								);
+							}							
+						}
+					}
+				}
 				$this->setTitle('Utilitaire de mise-à-jour' );
 				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
 				$release = Tools::getValue('release');
 				$r = Session::get()->AuwaVersion == $release['tag_name'];
 				$this->setVar(array(
 					'release'	=> $r ? false : $release,
-					'm_releases'=> array()
+					'm_releases'=> $coreModules
 				));
 				$this->displayContent('updates');
 				break;
@@ -202,18 +221,19 @@ class DefaultCoreController extends CoreController{
 				break;
 
 			// Updates
-			case 'checkUpdate':
+			case 'installUpdate':
 				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
-				$r = Session::get()->AuwaVersion == $this->data['version'];
-				$this->setResponse(true, $r);
-				break;
-			case 'downloadUpdate':
-				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
-				if (!is_dir(_CORE_DIR_.'releases/')) @mkdir(_CORE_DIR_.'releases/');
-				$u = $this->data['release'];
-				$f = _CORE_DIR_.'releases/'.$u['tag_name'].'.zip';
-				$s = 'https://github.com/auroran/Auwa/archive/'.$u['tag_name'].'.zip';
-				//$s = $u['zipball_url'];
+				$r = $this->data['release'];									// release name
+				$t = $this->data['target'];										// release type (module or auwa)
+				$m = str_replace('AuwaCoreModule-', '', $t);					// module name
+				$l = _CORE_DIR_.'releases/update.json';							// log file
+				$p = _CORE_DIR_.($t=='Auwa' ? '' : "modules/$m/").'releases/';	// path to release dir
+				$d = $t=='Auwa' ? _ROOT_DIR_ : _CORE_DIR_.'modules/'.$r;			// destination
+				$f = $p.$r.'.zip';												// release archive
+				$s = "https://github.com/auroran/$t/archive/$r.zip";			// remote release archive url
+				self::setLog("Téléchargement de l'archive", false, $l);
+				if (!is_dir($p)) @mkdir($p);
+
 				$remote = fopen($s, 'r');
 				if( $remote ) {
 					$local = fopen($f, 'w');
@@ -222,34 +242,29 @@ class DefaultCoreController extends CoreController{
 						$buffer = fread($remote, 2048);
 						fwrite($local, $buffer);
 					}
-					$this->setResponse(true, 'Archive téléchargée');
 					fclose($local);
-				} else 
+				} else {
 					$this->setResponse(false, 'Archive introuvable');
-					fclose($remote);
-				break;
+					return;
+				}
+				fclose($remote);
 
-			case 'installUpdate':
-				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
 				$zip = new \ZipArchive;
-				$l = _CORE_DIR_.'releases/update.json';
-				$u = $this->data['release'];
-				self::setLog("Extration de l'archive", false, $l);
-				if ($zip->open( _CORE_DIR_.'releases/'.$u['tag_name'].'.zip') ===  true) {
+				if ($zip->open( $f) ===  true) {
 					$n = $zip->numFiles;
-					@mkdir(_CORE_DIR_.'releases/'.$u['tag_name']);
-					$r = $zip->extractTo(_CORE_DIR_.'releases/'.$u['tag_name']);
+					self::setLog("Extration de l'archive", false, $l);
+					$r = $zip->extractTo($p);
 					$zip->close();
-					$updDir = _CORE_DIR_.'releases/'.$u['tag_name'].'/'.preg_replace('/^v/', 'Auwa-', $u['tag_name']);
+					$updDir = $p.preg_replace('/^v/', $t.'-', $r);
 					self::setLog('Création d\'une copie de sauvegarde', 0, $l);
 					self::$i=0;;
 					$nb = 0;
 					$r = self::copy(_ROOT_DIR_, '', 'list', false, $nb);
-					@unlink(_CORE_DIR_.'releases/backup.zip');
+					@unlink($p.'backup.zip');
 					$ressource = new \ZipArchive();
-					$ressource->open( _CORE_DIR_.'releases/backup.zip', \ZipArchive::CREATE);
+					$ressource->open( $p.'backup.zip', \ZipArchive::CREATE);
 					self::$i=0;
-					$r = self::copy(_ROOT_DIR_, '', 'zip', array(
+					$r = self::copy($d, '', 'zip', array(
 						'action'=> 'Création d\'une copie de sauvegarde',
 						'nb'=>$nb,
 						'i'=>0,
@@ -262,7 +277,7 @@ class DefaultCoreController extends CoreController{
 					$this->setResponse($r['error']==0, $r['msg']);
 					self::setLog('Copie des fichiers', 0, $l);
 					self::$i=0;
-					$r = self::copy($updDir, _ROOT_DIR_, 'copy', array(
+					$r = self::copy($updDir, $d, 'copy', array(
 						'action'=> 'Copie des fichiers',
 						'nb'=>$n,
 						'i'=>0,
@@ -274,6 +289,16 @@ class DefaultCoreController extends CoreController{
 				}
 				break;
 		}
+	}
+
+	private static function getRelease($repo){
+		$ch = curl_init("https://api.github.com/repos/Auroran/$repo/releases"); // such as http://example.com/example.xml
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt( $ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] );
+		$data = json_decode( curl_exec($ch) );
+		curl_close($ch);
+		return $data;
 	}
 
 	private static function setLog($action, $status, $file, $desc=null){

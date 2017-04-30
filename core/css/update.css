@@ -1,3 +1,14 @@
+#updateAuwa i{
+	position: absolute;
+	left: 9.5px;
+	width: 39px;
+	height: 39px;
+	top: 3px;
+	font-size: 39px;
+	color : #07d8d8;
+	box-sizing: border-box;
+}
+
 #AuwaUpgrade{
 	width: 550px;
 	right: 0;
@@ -8,14 +19,6 @@
 }
 	#AuwaUpgrade article h1{
 		margin: 10px;
-	}
-	#AuwaUpgrade article button{
-		padding: 1em;
-		background-color: #008c11;
-		color: #fff;
-		font-size: 1.15em;
-		margin: 10px;
-		cursor: pointer;
 	}
 
 			
@@ -49,19 +52,53 @@
 		display: none;
 		left: 120px;
 		right: 0;
+		overflow-y: auto;
 	}
-		#AuwaUpgrade article>section[role="core"]{
+
+		#AuwaUpgrade article>section button{
+			padding: 1em;
+			background-color: #008c11;
+			color: #fff;
+			font-size: 1.15em;
+			margin: 10px;
+			cursor: pointer;
+		}
+		#AuwaUpgrade article>section[role="core"],
+		#AuwaUpgrade article>section.uinfo{
 			display: block;
+		}
+		#AuwaUpgrade article>section.uinfo{
+			left: 0;
+		}
+		#AuwaUpgrade article>section.updating{
+			background: #3d4049;
+			color: #fff;
 		}
 		#AuwaUpgrade img{
 			width: 100%;
 		}
 		#AuwaUpgrade article>section ul{
-				width: 100%;
-				margin: auto;
-				text-align: left;
+			margin: 0;
+			padding-left: 0;
+			text-align: left;
+		}
+			#AuwaUpgrade article>section ul li{
+				padding: 10px;
+				margin: 8px;
+				list-style: none;
+				border-bottom: 1px solid #ccc;
+				font-size: .9em;
 			}
-				#AuwaUpgrade article>section ul li{
-					padding-left: 1.2em;
-					margin: 8px;
+				#AuwaUpgrade article>section ul li:after{
+					display: table;
+					content: ' ';
+					clear: both;
+				}
+				#AuwaUpgrade article>section ul li h1{
+					margin: 4px 0;
+				}
+				#AuwaUpgrade article>section ul li button{
+					padding: 4px 6px;
+					float: right;
+					margin: 8px 0 0 4px;
 				}

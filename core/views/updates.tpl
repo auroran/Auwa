@@ -10,7 +10,7 @@
 		<div>
 		{$release.body}
 		</div>
-		<button>Installer la mise-à-jour</button>
+		<button role="update" data-target="Auwa" name="{$release.tag_name}">Installer la mise-à-jour</button>
 	{else}
 		<br><div class="alert alert-success">Auwa est à jour ({$AuwaVersion})</div>
 	{/if}
@@ -18,8 +18,10 @@
 	<section role="modules">
 		<ul>
 		{foreach $m_releases as $m=>$r}
-			<li{if $release.prerelease} class="prerelease"{/if}><h1>{$m}</h1><code>{$r.tag_name}</code>
-			<button>Installer la mise-à-jour</button>
+			<li{if $release.prerelease} class="prerelease"{/if}>
+				<button role="update" data-target="AuwaCoreModule-{$m}" name="{$r.version}">Mettre à jour</button>
+				<h1>{$m}</h1><code>{$r.version}</code>
+			</li>
 		{/foreach}
 		</ul>
 	</section>
