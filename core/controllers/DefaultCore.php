@@ -254,7 +254,7 @@ class DefaultCoreController extends CoreController{
 					$res = $zip->extractTo($p);
 					$zip->close();
 					@unlink($f);
-					$updDir = $p.preg_replace('/^v/', $t.'-', $r);var_dump($updDir);die();
+					$updDir = $p.preg_replace('/^v/', $t.'-', $r);
 
 					self::setLog('Création d\'une copie de sauvegarde', 0, $l);
 					self::$i=0;;
