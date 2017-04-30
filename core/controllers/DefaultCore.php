@@ -116,12 +116,13 @@ class DefaultCoreController extends CoreController{
 
 			// Updates
 			case 'checkUpdate':
+				@touch(_CORE_DIR_.'releases/update.json');
 				$auwa = self::getRelease('Auwa');
 				$release = (!is_object($auwa) && isset($auwa[0])) ? $auwa[0] : false;
 				$r_auwa = Session::get()->AuwaVersion == $release->tag_name;
 				$coreSettings = \ConfigFile::getConfig('config/core');
 				$coreModules = array();
-				/*foreach ($coreSettings['Panel'] as $key => $tab) {
+				foreach ($coreSettings['Panel'] as $key => $tab) {
 					foreach ($tab as $item) {
 						if (isset($item['module']) && $item['module']!==false){
 							$r = self::getRelease('AuwaCoreModule-'.$item['module']);
@@ -135,7 +136,7 @@ class DefaultCoreController extends CoreController{
 							}							
 						}
 					}
-				}*/
+				}
 				$this->setTitle('Utilitaire de mise-à-jour' );
 				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
 				$this->setVar(array(
