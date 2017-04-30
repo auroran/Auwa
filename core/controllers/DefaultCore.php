@@ -116,13 +116,16 @@ class DefaultCoreController extends CoreController{
 
 			// Updates
 			case 'checkUpdate':
+				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
+				$this->setTitle('Utilitaire de mise-à-jour' );
+				if (!is_dir(_CORE_DIR_.'releases/')) @touch(_CORE_DIR_.'releases/');
 				@touch(_CORE_DIR_.'releases/update.json');
 				$auwa = self::getRelease('Auwa');
 				$release = (!is_object($auwa) && isset($auwa[0])) ? $auwa[0] : false;
 				$r_auwa = Session::get()->AuwaVersion == $release->tag_name;
 				$coreSettings = \ConfigFile::getConfig('config/core');
 				$coreModules = array();
-				foreach ($coreSettings['Panel'] as $key => $tab) {
+				/*foreach ($coreSettings['Panel'] as $key => $tab) {
 					foreach ($tab as $item) {
 						if (isset($item['module']) && $item['module']!==false){
 							$r = self::getRelease('AuwaCoreModule-'.$item['module']);
@@ -136,9 +139,7 @@ class DefaultCoreController extends CoreController{
 							}							
 						}
 					}
-				}
-				$this->setTitle('Utilitaire de mise-à-jour' );
-				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
+				}*/
 				$this->setVar(array(
 					'release'	=> !$r_auwa ? $release : true,
 					'm_releases'=> $coreModules
@@ -176,9 +177,7 @@ class DefaultCoreController extends CoreController{
 				$source = trim(implode("",explode("\\",$this->data['source'])));
 				$file = trim($this->data['file']);
 				$newfile = $file;
-				$action = $this->data['fileaction'];
-
-				
+				$action = $this->data['fileaction'];				
 				switch ($action) {
 					case 'rename':
 						$newfile = $this->data['newfile'];
@@ -252,37 +251,40 @@ class DefaultCoreController extends CoreController{
 				if ($zip->open( $f) ===  true) {
 					$n = $zip->numFiles;
 					self::setLog("Extration de l'archive", false, $l);
-					$r = $zip->extractTo($p);
+					$res = $zip->extractTo($p);
 					$zip->close();
-					$updDir = $p.preg_replace('/^v/', $t.'-', $r);
+					@unlink($f);
+					$updDir = $p.preg_replace('/^v/', $t.'-', $r);var_dump($updDir);die();
+
 					self::setLog('Création d\'une copie de sauvegarde', 0, $l);
 					self::$i=0;;
 					$nb = 0;
-					$r = self::copy(_ROOT_DIR_, '', 'list', false, $nb);
+					self::copy(_ROOT_DIR_, '', 'list', false, $nb);
 					@unlink($p.'backup.zip');
 					$ressource = new \ZipArchive();
 					$ressource->open( $p.'backup.zip', \ZipArchive::CREATE);
 					self::$i=0;
-					$r = self::copy($d, '', 'zip', array(
+					$res = self::copy($d, '', 'zip', array(
 						'action'=> 'Création d\'une copie de sauvegarde',
 						'nb'=>$nb,
 						'i'=>0,
 						'file'=>$l
 					),$ressource);
-					$res = $ressource->close();
-					if (!$res) {
-					    $r = array('error'=>1, 'msg'=>'Impossible de créer l\'archive');
+					$resR = $ressource->close();
+					if (!$resR) {
+					    $res = array('error'=>1, 'msg'=>'Impossible de créer l\'archive');
 					}
 					$this->setResponse($r['error']==0, $r['msg']);
 					self::setLog('Copie des fichiers', 0, $l);
 					self::$i=0;
-					$r = self::copy($updDir, $d, 'copy', array(
+					$res = self::copy($updDir, $d, 'copy', array(
 						'action'=> 'Copie des fichiers',
 						'nb'=>$n,
 						'i'=>0,
 						'file'=>$l
 					));
-					$this->setResponse($r['error']==0, $r['msg']);
+					self::copy($updDir, false, 'remove');
+					$this->setResponse($res['error']==0, $res['msg']);
 				} else {
 					$this->setResponse(false, 'Erreur dans l\'extraction de l\'archive');
 				}
@@ -320,6 +322,9 @@ class DefaultCoreController extends CoreController{
 				case 'move':
 					$r = @rename($source, $destination);
 					break;
+				case 'remove':
+					$r = @unlink($source, $destination);
+					break;
 				case 'list':
 					$ressource++;
 					break;
@@ -346,7 +351,7 @@ class DefaultCoreController extends CoreController{
 		if (is_dir($source) && !preg_match('/\/data$|\/config$|\/fonts$|\/modules$|\/themes$|\/releases$/', $source)){
 			// read dir and copy/move each files and folders
 			$dir = opendir($source);
-			if (!is_dir($destination) && $action!=='zip') @mkdir($destination);
+			if (!is_dir($destination) && $action!=='zip' && $action!=='remove') @mkdir($destination);
 			if (!$dir) {
 				return array('error'=>1, 'msg'=>'Impossible d\'ouvrir le répertoire');
 			}
