@@ -125,7 +125,7 @@ class DefaultCoreController extends CoreController{
 				$r_auwa = Session::get()->AuwaVersion == $release->tag_name;
 				$coreSettings = \ConfigFile::getConfig('config/core');
 				$coreModules = array();
-				/*foreach ($coreSettings['Panel'] as $key => $tab) {
+				foreach ($coreSettings['Panel'] as $key => $tab) {
 					foreach ($tab as $item) {
 						if (isset($item['module']) && $item['module']!==false){
 							$r = self::getRelease('AuwaCoreModule-'.$item['module']);
@@ -139,7 +139,7 @@ class DefaultCoreController extends CoreController{
 							}							
 						}
 					}
-				}*/
+				}
 				$this->setVar(array(
 					'release'	=> !$r_auwa ? $release : true,
 					'm_releases'=> $coreModules
