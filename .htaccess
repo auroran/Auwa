@@ -1,7 +1,0 @@
-Options +FollowSymlinks
-RewriteEngine On
-ErrorDocument 404 /auwa/index.php
-
-
-
-
