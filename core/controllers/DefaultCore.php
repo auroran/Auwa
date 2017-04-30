@@ -117,14 +117,14 @@ class DefaultCoreController extends CoreController{
 			// Updates
 			case 'checkUpdate':
 				$auwa = self::getRelease('Auwa');
-				if (!is_object($auwa) && isset($auwa[0])) $release = $auwa[0];
+				$release = (!is_object($auwa) && isset($auwa[0])) ? $auwa[0] : false;
+				$r_auwa = Session::get()->AuwaVersion == $release->tag_name;
 				$coreSettings = \ConfigFile::getConfig('config/core');
 				$coreModules = array();
-				foreach ($coreSettings['Panel'] as $key => $tab) {
+				/*foreach ($coreSettings['Panel'] as $key => $tab) {
 					foreach ($tab as $item) {
 						if (isset($item['module']) && $item['module']!==false){
 							$r = self::getRelease('AuwaCoreModule-'.$item['module']);
-							var_dump($r);
 							$m = \ConfigFile::getConfig('modules/'.$item['module'].'/module');
 							if (!is_object($r) && isset($r[0]) && isset($m['version']) && $r[0]->tag_name!==$m['version']){
 								$coreModules[$item['module']] = array(
@@ -135,13 +135,11 @@ class DefaultCoreController extends CoreController{
 							}							
 						}
 					}
-				}
+				}*/
 				$this->setTitle('Utilitaire de mise-à-jour' );
 				if (!_Auwa_ROOT_CONNECTED_) $this->setResponse(false, 'Action refusée');
-				$release = Tools::getValue('release');
-				$r = Session::get()->AuwaVersion == $release['tag_name'];
 				$this->setVar(array(
-					'release'	=> $r ? false : $release,
+					'release'	=> !$r_auwa ? $release : true,
 					'm_releases'=> $coreModules
 				));
 				$this->displayContent('updates');
