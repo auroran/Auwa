@@ -1525,11 +1525,11 @@ ul[role=contextmenu]{
     .icons>ul li.loading:after, ul.customlist li.loading:after{
         font-family: 'FontAwesome';
         position: absolute;
-        top: 10px;
-        left: 0;
+        top: 13px;
+        left: 1px;
         right: 0;
         height: auto;
-        content: '\f110';
+        content: '\f1ce';
         font-size: 3em;
         color: #fff;
         text-shadow: 0 0 20px #000, 0 0 4px #000, 0 0 1px #000;
