@@ -4,6 +4,7 @@
 # Config files
 *.yml
 !.travis.yml
+/.htaccess
 
 # Themes, img, js and css
 /themes/*
